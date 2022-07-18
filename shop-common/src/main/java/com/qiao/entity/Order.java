@@ -20,4 +20,5 @@ public class Order {
     private String pName;//商品名称
     private Double pPrice;//商品单价
     private Integer number;//购买数量
+    private String dataBase;
 }

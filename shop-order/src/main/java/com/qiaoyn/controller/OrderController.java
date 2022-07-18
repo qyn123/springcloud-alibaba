@@ -3,6 +3,7 @@ package com.qiaoyn.controller;
 import com.qiao.entity.Order;
 import com.qiao.entity.Product;
 import com.qiaoyn.service.OrderService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -12,11 +13,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
+import java.util.Random;
+
 /**
  * @author qiaoyanan
  * date:2022/07/16 21:02
  */
 @RestController
+@Slf4j
 public class OrderController {
 
     @Autowired
@@ -27,12 +32,19 @@ public class OrderController {
     private DiscoveryClient discoveryClient;
 
     @GetMapping("/create/order/{pid}")
-    public void create(@PathVariable("pid") Integer pid){
+    public void create(@PathVariable("pid") Integer pid) {
         //Product product = restTemplate.getForObject("http://localhost:8081/product/" + pid, Product.class);
-        ServiceInstance serviceInstance = discoveryClient.getInstances("service-product").get(0);
-        String host = serviceInstance.getHost();
-        int port = serviceInstance.getPort();
-        Product product = restTemplate.getForObject("http://"+host+":"+port+"/product/" + pid, Product.class);
+        //ServiceInstance serviceInstance = discoveryClient.getInstances("service-product").get(0);
+        //自定义负载均衡算法(随机数)
+//        List<ServiceInstance> instances = discoveryClient.getInstances("service-product");
+//        int index = new Random().nextInt(instances.size());
+//        ServiceInstance serviceInstance = instances.get(index);
+//        String host = serviceInstance.getHost();
+//        int port = serviceInstance.getPort();
+//        log.info("正在调用的端口号是: {}",port);
+        //       Product product = restTemplate.getForObject("http://"+host+":"+port+"/product/" + pid, Product.class);
+        //基于ribbon的负载均衡(默认轮询)
+        Product product = restTemplate.getForObject("http://service-product/product/" + pid, Product.class);
         Order order = new Order();
         order.setPId(pid);
         assert product != null;
@@ -42,5 +54,13 @@ public class OrderController {
         order.setUserName("tom");
         order.setUId(1);
         orderService.createOrder(order);
+    }
+
+    /**
+     * 查询货物信息
+     */
+    @GetMapping("/get/product/{pid}")
+    public Product getProduct(@PathVariable("pid") Integer pid) {
+        return restTemplate.getForObject("http://service-product/product/" + pid, Product.class);
     }
 }

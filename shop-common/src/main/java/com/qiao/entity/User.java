@@ -16,4 +16,5 @@ public class User {
     private String userName;//用户名
     private String passWord;//密码
     private String phone;//手机号
+    private String dataBase;
 }

@@ -16,4 +16,5 @@ public class Product {
     private String pName;//商品名称
     private Double pPrice;//商品价格
     private Integer stock;//库存
+    private String dataBase;
 }
