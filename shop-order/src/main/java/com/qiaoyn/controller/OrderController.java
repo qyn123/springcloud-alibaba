@@ -57,6 +57,7 @@ public class OrderController {
     }
 
     /**
+     * 基于ribbon的负载均衡(默认使用轮询算法):查询商品信息,查看每次查询哪个库的信息
      * 查询货物信息
      */
     @GetMapping("/get/product/{pid}")
