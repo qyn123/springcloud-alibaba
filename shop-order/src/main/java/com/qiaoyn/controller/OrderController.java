@@ -3,6 +3,7 @@ package com.qiaoyn.controller;
 import com.qiao.entity.Order;
 import com.qiao.entity.Product;
 import com.qiaoyn.service.OrderService;
+import com.qiaoyn.service.ProductFeignService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
@@ -30,6 +31,8 @@ public class OrderController {
     private OrderService orderService;
     @Autowired
     private DiscoveryClient discoveryClient;
+    @Autowired
+    private ProductFeignService productFeignService;
 
     @GetMapping("/create/order/{pid}")
     public void create(@PathVariable("pid") Integer pid) {
@@ -44,7 +47,9 @@ public class OrderController {
 //        log.info("正在调用的端口号是: {}",port);
         //       Product product = restTemplate.getForObject("http://"+host+":"+port+"/product/" + pid, Product.class);
         //基于ribbon的负载均衡(默认轮询)
-        Product product = restTemplate.getForObject("http://service-product/product/" + pid, Product.class);
+        //Product product = restTemplate.getForObject("http://service-product/product/" + pid, Product.class);
+        //基于feign远程调用
+        Product product = productFeignService.findByPid(pid);
         Order order = new Order();
         order.setPId(pid);
         assert product != null;
