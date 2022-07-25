@@ -1,5 +1,6 @@
 package com.qiaoyn.controller;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,12 +19,17 @@ import java.util.Date;
 @Slf4j
 @RestController
 public class OrderController2 {
+    int i = 0;
 
 //    @Autowired
 //    private OrderServiceImpl3 orderServiceImpl3;
 
     @RequestMapping("/order/message1")
     public String message1() {
+        i++;
+        if (i % 3 == 0) {
+            throw new RuntimeException();
+        }
         //orderServiceImpl3.message();
         return "message1:"+ System.currentTimeMillis();
     }
@@ -32,5 +38,18 @@ public class OrderController2 {
     public String message2() {
         //orderServiceImpl3.message();
         return "message2:"+ System.currentTimeMillis();
+    }
+
+    @RequestMapping("/order/message3")
+    @SentinelResource("message3")
+    public String message3(String name,Integer age) {
+        return "message3:"+ System.currentTimeMillis() + "name="+name + ",age="+age;
+    }
+
+
+    @RequestMapping("/order/message4")
+    public String message4(String name) {
+        System.out.println(name);
+        return "message4:"+ System.currentTimeMillis();
     }
 }
