@@ -1,5 +1,6 @@
 package com.qiaoyn.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.qiao.entity.Order;
 import com.qiao.entity.Product;
 import com.qiaoyn.service.OrderService;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,7 +37,7 @@ public class OrderController {
     private ProductFeignService productFeignService;
 
     @GetMapping("/create/order/{pid}")
-    public void create(@PathVariable("pid") Integer pid) {
+    public Order create(@PathVariable("pid") Integer pid) {
         //Product product = restTemplate.getForObject("http://localhost:8081/product/" + pid, Product.class);
         //ServiceInstance serviceInstance = discoveryClient.getInstances("service-product").get(0);
         //自定义负载均衡算法(随机数)
@@ -50,15 +52,20 @@ public class OrderController {
         //Product product = restTemplate.getForObject("http://service-product/product/" + pid, Product.class);
         //基于feign远程调用
         Product product = productFeignService.findByPid(pid);
+        if (product.getPId() == -1) {
+            Order order = new Order();
+            order.setPName("下单失败");
+            return order;
+        }
         Order order = new Order();
         order.setPId(pid);
-        assert product != null;
         order.setPName(product.getPName());
         order.setPPrice(product.getPPrice());
         order.setNumber(1);
         order.setUserName("tom");
         order.setUId(1);
         orderService.createOrder(order);
+        return order;
     }
 
     /**

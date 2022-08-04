@@ -1,0 +1,17 @@
+server:
+  port: 7000
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+    gateway:
+      routes:
+        - id: order_route
+          uri: lb://service-order
+          predicates:
+            - Path=/shop-order/**
+          filters:
+            - StripPrefix=1
