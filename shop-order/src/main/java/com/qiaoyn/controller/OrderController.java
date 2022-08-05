@@ -18,8 +18,11 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 /**
+ * zipkin mysql数据持久化启动命令
+ * java -jar zipkin-server-2.23.9-exec.jar --STORAGE_TYPE=mysql --MYSQL_HOST=127.0.0.1 --MYSQL_TCP_PORT=3306 --MYSQL_DB=zipkin --MYSQL_USER=root --MYSQL_PASS=root
  * @author qiaoyanan
  * date:2022/07/16 21:02
  */
@@ -57,6 +60,13 @@ public class OrderController {
             order.setPName("下单失败");
             return order;
         }
+
+        try {
+            Thread.sleep(4000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         Order order = new Order();
         order.setPId(pid);
         order.setPName(product.getPName());
