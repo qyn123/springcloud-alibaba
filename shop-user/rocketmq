@@ -1,0 +1,4 @@
+进入rocket mq 的bin目录,
+1)start mqnamesrv.cmd
+2)start mqbroker.cmd -n 127.0.0.1:9876 autoCreateTopicEnable=true
+3)执行rocketmq.bat文件,启动执行界面
