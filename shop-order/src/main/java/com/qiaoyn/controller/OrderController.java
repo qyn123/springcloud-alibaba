@@ -6,6 +6,7 @@ import com.qiao.entity.Product;
 import com.qiaoyn.service.OrderService;
 import com.qiaoyn.service.ProductFeignService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -38,6 +39,8 @@ public class OrderController {
     private DiscoveryClient discoveryClient;
     @Autowired
     private ProductFeignService productFeignService;
+    @Autowired
+    private RocketMQTemplate rocketMQTemplate;
 
     @GetMapping("/create/order/{pid}")
     public Order create(@PathVariable("pid") Integer pid) {
@@ -62,7 +65,7 @@ public class OrderController {
         }
 
         try {
-            Thread.sleep(4000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -75,6 +78,9 @@ public class OrderController {
         order.setUserName("tom");
         order.setUId(1);
         orderService.createOrder(order);
+        //下单成功之后,将消息放到mq中
+        rocketMQTemplate.convertAndSend("order-topic", order);
+        log.info("发送一个订单信息{}",order);
         return order;
     }
 
