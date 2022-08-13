@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: service-product
+  cloud:
+    nacos:
+      config:
+        server-addr: 127.0.0.1:8848 #注册中心地址
+        file-extension: yaml #配置文件格式
+        shared-dataids: all-service.yaml #引入公共的配置
+        refreshable-dataids: all-service.yaml #实现公共配置动态刷新
+  profiles:
+    active: pro
+
