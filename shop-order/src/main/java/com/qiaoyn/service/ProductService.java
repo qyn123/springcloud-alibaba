@@ -1,7 +1,6 @@
 package com.qiaoyn.service;
 
 import com.qiao.entity.Product;
-import com.qiaoyn.config.ProductServiceFallBack;
 import com.qiaoyn.config.ProductServiceFallBackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,10 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
         //fallback = ProductServiceFallBack.class
         fallbackFactory = ProductServiceFallBackFactory.class
 )
-public interface ProductFeignService {
+public interface ProductService {
 
-    //指定调用提供者的哪个方法
-    // @FeignClient+@GetMapping 就是一个完整的请求路径 http://service-product/product{pid}
-    @GetMapping(value = "/product/{pid}")
-    Product findByPid(@PathVariable("pid") Integer pid);
+    //减库存
+    @RequestMapping("/product/reduceInventory")
+    void reduceInventory(@RequestParam("pid") Integer pid, @RequestParam("num") int num);
 }

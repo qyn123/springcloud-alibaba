@@ -22,4 +22,12 @@ public class ProductServiceImpl implements ProductService {
     public Product findByPid(Integer pid) {
         return productDao.selectById(pid);
     }
+
+    @Override
+    public void reduceInventory(Integer pid, int num) {
+        Product product = productDao.selectById(pid);
+        product.setStock(product.getStock() - num);
+        //减库存
+        productDao.update(product);
+    }
 }

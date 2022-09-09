@@ -3,6 +3,7 @@ package com.qiaoyn.dao;
 import com.qiao.entity.Product;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 /**
  * @author qiaoyanan
@@ -13,4 +14,7 @@ public interface ProductDao {
 
     @Select("select * from product where p_id = #{pid}")
     Product selectById(Integer pid);
+
+    @Update("update product set stock = #{stock} where p_id = #{pid}")
+    void update(Product product);
 }
