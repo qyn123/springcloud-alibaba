@@ -26,6 +26,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void reduceInventory(Integer pid, int num) {
         Product product = productDao.selectById(pid);
+        if (product.getStock() < num) {
+            throw new RuntimeException("库存不足");
+        }
+        int i = 1 / 0;
         product.setStock(product.getStock() - num);
         //减库存
         productDao.update(product);

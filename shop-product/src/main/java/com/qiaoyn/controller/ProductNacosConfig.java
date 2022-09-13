@@ -1,6 +1,5 @@
 package com.qiaoyn.controller;
 
-import com.alibaba.cloud.nacos.NacosConfigAutoConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
