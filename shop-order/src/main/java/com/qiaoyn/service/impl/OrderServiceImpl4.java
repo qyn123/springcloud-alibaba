@@ -6,6 +6,7 @@ import com.qiao.entity.Product;
 import com.qiaoyn.dao.OrderDao;
 import com.qiaoyn.service.ProductFeignService;
 import com.qiaoyn.service.ProductService;
+import io.seata.spring.annotation.GlobalTransactional;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class OrderServiceImpl4 {
     @Autowired
     private ProductService productService;
 
-//    @GlobalTransactional
+    @GlobalTransactional
     public Order createOrder(Integer pid) {
         //1 调用商品微服务,查询商品信息
         Product product = productFeignService.findByPid(pid);

@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
  * @author qiaoyanan
  * date:2022/07/16 20:54
  */
-@SpringBootApplication
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @EnableDiscoveryClient
 @EnableFeignClients
 public class OrderApplication {
