@@ -41,6 +41,7 @@ public class OrderServiceImpl4 {
         order.setPName(product.getPName());
         order.setPPrice(product.getPPrice());
         order.setNumber(1);
+        order.setDataBase(product.getDataBase());
         orderDao.createOrder(order);
         log.info("创建订单成功,订单信息为{}", JSON.toJSONString(order));
         //3 扣库存

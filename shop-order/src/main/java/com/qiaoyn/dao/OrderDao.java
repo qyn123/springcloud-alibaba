@@ -11,6 +11,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface OrderDao {
 
-    @Insert("INSERT INTO `order`(`u_id`, `user_name`, `p_id`, `p_name`, `p_price`, `number`) VALUES (#{uId}, #{userName}, #{pId}, #{pName}, #{pPrice}, #{number})")
+    @Insert("INSERT INTO `order`(`u_id`, `user_name`, `p_id`, `p_name`, `p_price`, `number`,`data_base`) VALUES (#{uId}, #{userName}, #{pId}, #{pName}, #{pPrice}, #{number},#{dataBase})")
     void createOrder(Order order);
 }

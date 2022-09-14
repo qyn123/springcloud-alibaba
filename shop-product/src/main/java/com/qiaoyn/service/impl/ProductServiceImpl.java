@@ -30,6 +30,7 @@ public class ProductServiceImpl implements ProductService {
             throw new RuntimeException("库存不足");
         }
         product.setStock(product.getStock() - num);
+        //如果发生异常,则回滚
         int i = 1 / 0;
         //减库存
         productDao.update(product);

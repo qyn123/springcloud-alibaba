@@ -15,6 +15,6 @@ public interface ProductDao {
     @Select("select * from product where p_id = #{pid}")
     Product selectById(Integer pid);
 
-    @Update("update product set stock = #{stock} where p_id = #{pid}")
+    @Update("update product set stock = #{stock} where p_id = #{pId}")
     void update(Product product);
 }
