@@ -30,7 +30,7 @@ public class OrderServiceImpl4 {
 
     @GlobalTransactional
     public Order createOrder(Integer pid) {
-        //1 调用商品微服务,查询商品信息
+        //1 调用商品微服务,查询商品信息1
         Product product = productFeignService.findByPid(pid);
         log.info("查询到{}号商品的信息,内容是:{}", pid, JSON.toJSONString(product));
         //2 下单(创建订单)
