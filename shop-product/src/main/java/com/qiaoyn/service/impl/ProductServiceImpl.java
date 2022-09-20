@@ -31,8 +31,8 @@ public class ProductServiceImpl implements ProductService {
         }
         product.setStock(product.getStock() - num);
         //如果发生异常,则回滚
-        int i = 1 / 0;
         //减库存
         productDao.update(product);
+        int i = 1 / 0;
     }
 }
